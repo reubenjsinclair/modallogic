@@ -663,10 +663,12 @@ var MPL = (function (FormulaParser) {
         _truth(model, state, json.disj[0]) || _truth(model, state, json.disj[1])
       );
     else if (json.impl)
-      return (
-        !_truth(model, state, json.impl[0]) ||
-        _truth(model, state, json.impl[1])
-      );
+      return model.getUsedPreordersOf(state).every((world1) => {
+        return (
+          !_truth(model, world1, json.impl[0]) ||
+          _truth(model, world1, json.impl[1])
+        );
+      });
     else if (json.equi)
       return (
         _truth(model, state, json.equi[0]) ===
