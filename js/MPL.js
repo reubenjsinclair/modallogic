@@ -181,7 +181,7 @@ var MPL = (function (FormulaParser) {
     var _preordersToEval = [];
     var _relationsToEval = [];
 
-    var _rules = [false, false, false];
+    var _rules = [false, false, false, false];
 
     this.updateRule = function (i) {
       _rules[i] = !_rules[i];
@@ -206,6 +206,45 @@ var MPL = (function (FormulaParser) {
      * Checks required nodes, preorders and relations to satisfy confluence exist
      */
 
+    this.checkBackwardsConfluence = function () {
+      //console.log("Checking confluence", _states);
+      let l = _states.length;
+      return _states.every((_, i) => {
+        return _states.every((_, j) => {
+          return _states.every((_, k) => {
+            console.log("Checking ", i, j, k);
+            if (
+              // if there is some i, j, k s.t. i<j and iRk -> this means there must be some m s.t. jRm, k<m
+              this.listSearch(_preordersToEval, [i, j]) &&
+              this.listSearch(_relationsToEval, [j, k])
+            ) {
+              console.log("!Selected ", i, j, k);
+              return _states.some((_, m) => {
+                console.log("checking", m);
+                return (
+                  this.listSearch(_relationsToEval, [i, m]) &&
+                  this.listSearch(_preordersToEval, [m, k])
+                );
+              });
+            }
+            if (
+              this.listSearch(_relationsToEval, [i, j]) &&
+              this.listSearch(_preordersToEval, [j, k])
+            ) {
+              console.log("!Selected ", i, j, k);
+              return _states.some((_, m) => {
+                console.log("checking", m);
+                return (
+                  this.listSearch(_preordersToEval, [i, m]) &&
+                  this.listSearch(_relationsToEval, [m, k])
+                );
+              });
+            }
+            return true;
+          });
+        });
+      });
+    };
     this.checkForwardConfluence = function () {
       //console.log("Checking confluence", _states);
       let l = _states.length;
@@ -631,6 +670,8 @@ var MPL = (function (FormulaParser) {
       console.log(_rules);
 
       if (_rules[1] && !this.checkForwardConfluence())
+        return "Confluence check failed";
+      if (_rules[3] && !this.checkBackwardsConfluence())
         return "Confluence check failed";
 
       return "";

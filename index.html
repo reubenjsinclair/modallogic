@@ -6,6 +6,8 @@
   <title>Modal Logic Playground</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,700">
   <link rel="stylesheet" href="lib/bootstrap.min.css">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
+
   <link rel="stylesheet" href="css/app.css">
 </head>
 for all future nodes p -> q
@@ -95,7 +97,7 @@ for all future nodes p -> q
             <div class="alert-info alert"> <!-- This is the "select arrow type" section -->
               <tbody>
                 <tr class="">
-                  <td class="var-name">Arrow Type:</td>
+                  <td class="var-name">Arrow Type: </td>
                   <td class="var-value">
                     <div class="btn-group">
                       <button id="btnArrowPreorder" class="active btn btn-small btn-info" onclick="setArrowType('preorder')">Preorder</button>
@@ -104,6 +106,29 @@ for all future nodes p -> q
                   </td>
                 </tr>
               </tbody>
+            </div>
+
+	    <div class="alert alert-secondary">
+	      <!-- This is the "toggle rules" section -->
+	      <div class="form-check">
+		<tbody>
+		  <tr class="">
+		    <td class="var-name"><label class="form-checklabel" for="reflR">Reflexivity of R</label></td>
+                    <td class="var-name"><input class="form-check-input" type="checkbox" id="reflR" onchange="toggleRule(0)"></td>
+		  </tr>
+		</tbody>
+		</div>
+	      <h2>Test</h2>
+	      <div class="form-check">
+		<input class="form-check-input" type="checkbox" id="reflR" onchange="toggleRule(0)">
+		<label class="form-check-label" for="reflR">Reflexivity of R</label>
+		<input class="form-check-input" type="checkbox" id="fConf" onchange="toggleRule(1)">
+		<label class="form-check-label" for="fConf">Forward Confluence</label>
+		<input class="form-check-input" type="checkbox" id="localDiamond" onchange="toggleRule(2)">
+		<label class="form-check-label" for="localDiamond">Local Diamond</label>
+		<input class="form-check-input" type="checkbox" id="bConf" onchange="toggleRule(3)">
+		<label class="form-check-label" for="bConf">Backwards Confluence</label>
+	      </div>
             </div>
 
 	    <div class="alert-info alert">
@@ -115,6 +140,8 @@ for all future nodes p -> q
 		<label class="form-check-label" for="fConf">Forward Confluence</label>
 		<input class="form-check-input" type="checkbox" id="localDiamond" onchange="toggleRule(2)">
 		<label class="form-check-label" for="localDiamond">Local Diamond</label>
+		<input class="form-check-input" type="checkbox" id="bConf" onchange="toggleRule(3)">
+		<label class="form-check-label" for="bConf">Backwards Confluence</label>
 	      </div>
 
             </div>
@@ -535,5 +562,7 @@ for all future nodes p -> q
 <script src="lib/formula-parser.min.js"></script>
 <script src="js/MPL.js"></script>
 <script src="js/app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
 
 </html>
