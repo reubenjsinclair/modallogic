@@ -108,44 +108,45 @@ for all future nodes p -> q
               </tbody>
             </div>
 
-	    <div class="alert alert-secondary">
+	    Check:
+	    <div class="alert alert-info">
 	      <!-- This is the "toggle rules" section -->
 	      <div class="form-check">
-		<tbody>
-		  <tr class="">
-		    <td class="var-name"><label class="form-checklabel" for="reflR">Reflexivity of R</label></td>
-                    <td class="var-name"><input class="form-check-input" type="checkbox" id="reflR" onchange="toggleRule(0)"></td>
-		  </tr>
-		</tbody>
+		<table>
+		  <tbody>
+		    <tr class="test">
+		      <td class="rule-label"><label class="form-check-label" for="fConf">Forward Confluence: </label></td>
+		      <td class="rule-check"><input class="form-check-input" type="checkbox" id="fConf" onchange="toggleRule(1)"></td>
+		    </tr>
+		    <tr class="test">
+		      <td class="rule-label"><label class="form-check-label" for="bConf">Backwards Confluence: </label></td>
+		      <td class="rule-check"><input class="form-check-input" type="checkbox" id="bConf" onchange="toggleRule(3)"></td>
+		    </tr>
+		  </tbody>
+		</table>
 		</div>
-	      <h2>Test</h2>
-	      <div class="form-check">
-		<input class="form-check-input" type="checkbox" id="reflR" onchange="toggleRule(0)">
-		<label class="form-check-label" for="reflR">Reflexivity of R</label>
-		<input class="form-check-input" type="checkbox" id="fConf" onchange="toggleRule(1)">
-		<label class="form-check-label" for="fConf">Forward Confluence</label>
-		<input class="form-check-input" type="checkbox" id="localDiamond" onchange="toggleRule(2)">
-		<label class="form-check-label" for="localDiamond">Local Diamond</label>
-		<input class="form-check-input" type="checkbox" id="bConf" onchange="toggleRule(3)">
-		<label class="form-check-label" for="bConf">Backwards Confluence</label>
-	      </div>
-            </div>
+	    </div>
 
-	    <div class="alert-info alert">
+	    Introduce:
+	    <div class="alert alert-info">
 	      <!-- This is the "toggle rules" section -->
 	      <div class="form-check">
-		<input class="form-check-input" type="checkbox" id="reflR" onchange="toggleRule(0)">
-		<label class="form-check-label" for="reflR">Reflexivity of R</label>
-		<input class="form-check-input" type="checkbox" id="fConf" onchange="toggleRule(1)">
-		<label class="form-check-label" for="fConf">Forward Confluence</label>
-		<input class="form-check-input" type="checkbox" id="localDiamond" onchange="toggleRule(2)">
-		<label class="form-check-label" for="localDiamond">Local Diamond</label>
-		<input class="form-check-input" type="checkbox" id="bConf" onchange="toggleRule(3)">
-		<label class="form-check-label" for="bConf">Backwards Confluence</label>
-	      </div>
+		<table>
+		  <tbody>
+		    <tr class="test">
+		      <td class="rule-label"><label class="form-check-label" for="reflR">Reflexivity of R: </label></td>
+		      <td class="rule-check"><input class="form-check-input" type="checkbox" id="reflR" onchange="toggleRule(0)"></td>
+		    </tr>
+		    <tr class="test">
+		      <td class="rule-label"><label class="form-check-label" for="localDiamond">Local Diamond: </label></td>
+		      <td class="rule-check"><input class="form-check-input" type="checkbox" id="localDiamond" onchange="toggleRule(2)"></td>
+		    </tr>
+		  </tbody>
+		</table>
+		</div>
+	    </div>
 
-            </div>
-            <!-- <div class="instructions">
+	              <!-- <div class="instructions">
                 <ul class="unstyled">
                   <li>Click in the open space to <strong>add a state</strong></li>
                   <li>Drag between states to <strong>add a transition</strong></li>

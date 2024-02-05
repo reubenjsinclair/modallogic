@@ -369,3 +369,6 @@ footer {
 label {
   display: inline;
 }
+.rule-check {
+  padding-left: 15px;
+}
