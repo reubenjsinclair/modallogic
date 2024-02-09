@@ -10,7 +10,8 @@
 // app mode constants
 var MODE = {
     EDIT: 0,
-    EVAL: 1,
+    CHECK: 1,
+    EVAL: 2,
   },
   appMode = MODE.EDIT;
 
@@ -230,7 +231,18 @@ var varCountButtons = d3.selectAll("#edit-pane .var-count button"),
   selectedNodeLabel = d3.select("#edit-pane .selected-node-id"),
   evalInput = d3.select("#eval-pane .eval-input"),
   evalOutput = d3.select("#eval-pane .eval-output"),
-  currentFormula = d3.select("#app-body .current-formula");
+  currentFormula = d3.select("#app-body .current-formula"),
+  evalFormulaButton = d3.select("#eval-formula-btn");
+
+function checkModel() {
+  let output = MPL.pretruth(model);
+  if (output != "") {
+    alert(output);
+    evalFormulaButton.attr("disabled", true);
+    return;
+  }
+  evalFormulaButton.attr("disabled", null);
+}
 
 function evaluateFormula() {
   // make sure a formula has been input
@@ -265,13 +277,13 @@ function evaluateFormula() {
     return;
   }
 
-  // prepare model for evaluation
-  let pretruth = MPL.pretruth(model);
-  console.log(pretruth);
-  if (pretruth != "") {
-    alert(pretruth);
-    return;
-  }
+  // prepare model for evaluation - moved this to checkModel()
+  // let pretruth = MPL.pretruth(model);
+  // console.log(pretruth);
+  // if (pretruth != "") {
+  //   alert(pretruth);
+  //   return;
+  // }
 
   // evaluate formula at each state in model
   var trueStates = [],
@@ -872,6 +884,33 @@ function setAppMode(newMode) {
       .classed("true", false)
       .classed("false", false);
     currentFormula.classed("inactive", true);
+  } else if (newMode === MODE.CHECK) {
+    // disable listeners (except for I-bar prevention)
+    svg
+      .classed("edit", false)
+      .on("mousedown", function () {
+        d3.event.preventDefault();
+      })
+      .on("mousemove", null)
+      .on("mouseup", null);
+    d3.select(window).on("keydown", null).on("keyup", null);
+
+    // in case ctrl still held
+    circle.on("mousedown.drag", null).on("touchstart.drag", null);
+    svg.classed("ctrl", false);
+    lastKeyDown = -1;
+
+    // in case still dragging
+    drag_line.classed("hidden", true).style("marker-end", "");
+
+    // clear mouse vars
+    selected_link = null;
+    setSelectedNode(null);
+    resetMouseVars();
+
+    // reset eval state
+    circle.classed("waiting", true);
+    evalOutput.classed("inactive", true);
   } else if (newMode === MODE.EVAL) {
     // disable listeners (except for I-bar prevention)
     svg
