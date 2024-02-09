@@ -181,7 +181,7 @@ var MPL = (function (FormulaParser) {
     var _preordersToEval = [];
     var _relationsToEval = [];
 
-    var _rules = [false, false, false, false];
+    var _rules = [false, false, false, false, false];
 
     this.updateRule = function (i) {
       _rules[i] = !_rules[i];
@@ -312,7 +312,9 @@ var MPL = (function (FormulaParser) {
     this.updateTransitiveClosure = function (typeS) {
       let l = _states.length;
 
-      let tempRelation = typeS == "preorders" ? _preorders : _relations;
+      let tempRelation = Array.from(
+        typeS == "preorders" ? _preorders : _relations
+      );
       // console.log(tempRelation)
       for (let k = 0; k < l; k++) {
         for (let i = 0; i < l; i++) {
@@ -680,6 +682,7 @@ var MPL = (function (FormulaParser) {
 
       var relationsToUnify = [_relations];
       if (_rules[0]) relationsToUnify.push(this.generateReflexive());
+      if (_rules[4]) relationsToUnify.push(_transRelations);
       console.log("r to unify:", relationsToUnify);
       _relationsToEval = this.unify(relationsToUnify);
       console.log("!relations to eval:", _relationsToEval);
