@@ -232,16 +232,51 @@ var varCountButtons = d3.selectAll("#edit-pane .var-count button"),
   evalInput = d3.select("#eval-pane .eval-input"),
   evalOutput = d3.select("#eval-pane .eval-output"),
   currentFormula = d3.select("#app-body .current-formula"),
-  evalFormulaButton = d3.select("#eval-formula-btn");
+  evalFormulaButton = d3.select("#eval-formula-btn"),
+  checkOutputBconf = d3.select(".check-output-bconf"),
+  checkOutputConf = d3.select(".check-output-conf");
 
 function checkModel() {
   let output = MPL.pretruth(model);
-  if (output != "") {
+
+  if (output == "") {
     alert(output);
-    evalFormulaButton.attr("disabled", true);
+    evalFormulaButton.attr("disabled", null);
     return;
   }
-  evalFormulaButton.attr("disabled", null);
+
+  console.log(output);
+  console.log(output, output.confluence.length);
+
+  if (output.confluence.length != 0) {
+    let htmlOutput =
+      '<div class="alert alert-danger"><strong>Forwards confluence:</strong><div><div>';
+
+    output.confluence.forEach((i) => {
+      console.log(i);
+      htmlOutput = htmlOutput.concat(i, "<br/>");
+    });
+
+    htmlOutput = htmlOutput.concat("</div></div></div>");
+
+    checkOutputConf.html(htmlOutput).classed("inactive", false);
+  }
+
+  if (output.backConfluence.length != 0) {
+    let htmlOutput =
+      '<div class="alert alert-danger"><strong>Backwards confluence:</strong><div><div>';
+
+    output.backConfluence.forEach((i) => {
+      console.log(i);
+      htmlOutput = htmlOutput.concat(i, "<br/>");
+    });
+
+    htmlOutput = htmlOutput.concat("</div></div></div>");
+
+    checkOutputBconf.html(htmlOutput).classed("inactive", false);
+  }
+
+  evalFormulaButton.attr("disabled", true);
 }
 
 function evaluateFormula() {
@@ -884,6 +919,7 @@ function setAppMode(newMode) {
       .classed("true", false)
       .classed("false", false);
     currentFormula.classed("inactive", true);
+    evalFormulaButton.attr("disabled", true);
   } else if (newMode === MODE.CHECK) {
     // disable listeners (except for I-bar prevention)
     svg

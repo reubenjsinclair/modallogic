@@ -215,23 +215,6 @@ var MPL = (function (FormulaParser) {
           _states.forEach((_, k) => {
             console.log("Checking ", i, j, k);
             if (
-              this.listSearch(_preordersToEval, [i, j]) &&
-              this.listSearch(_relationsToEval, [j, k])
-            ) {
-              console.log("!Selected ", i, j, k);
-              let satisfy = _states.some((_, m) => {
-                console.log("checking", m);
-                return (
-                  this.listSearch(_relationsToEval, [i, m]) &&
-                  this.listSearch(_preordersToEval, [m, k])
-                );
-              });
-              console.log(satisfy);
-              if (!satisfy) {
-                output.push([i, j, k]);
-              }
-            }
-            if (
               this.listSearch(_relationsToEval, [i, j]) &&
               this.listSearch(_preordersToEval, [j, k])
             ) {
@@ -256,30 +239,33 @@ var MPL = (function (FormulaParser) {
     };
     this.checkForwardConfluence = function () {
       //console.log("Checking confluence", _states);
+      let output = [];
       let l = _states.length;
-      return _states.every((_, i) => {
-        return _states.every((_, j) => {
-          return _states.every((_, k) => {
+      _states.forEach((_, i) => {
+        _states.forEach((_, j) => {
+          _states.forEach((_, k) => {
             console.log("Checking ", i, j, k);
             if (
               // if there is some i, j, k s.t. i<j and iRk -> this means there must be some m s.t. jRm, k<m
-              this.listSearch(_preorders, [i, k]) &&
-              this.listSearch(_relations, [i, j])
+              this.listSearch(_preorders, [i, j]) &&
+              this.listSearch(_relations, [i, k])
             ) {
-              console.log("!Selected ", i, j, k);
-              return _states.some((_, m) => {
+              let satisfy = _states.some((_, m) => {
                 console.log("checking", m);
                 return (
-                  this.listSearch(_preorders, [j, m]) &&
-                  this.listSearch(_relations, [k, m])
+                  this.listSearch(_preordersToEval, [k, m]) &&
+                  this.listSearch(_relationsToEval, [j, m])
                 );
               });
-            } else {
-              return true;
+              console.log(satisfy);
+              if (!satisfy) {
+                output.push([i, j, k]);
+              }
             }
           });
         });
       });
+      return output;
     };
 
     /**
@@ -690,18 +676,19 @@ var MPL = (function (FormulaParser) {
 
       let fconf = this.checkForwardConfluence();
       let bconf = this.checkBackwardsConfluence();
+      console.log(fconf, bconf, fconf == [], bconf == []); // Change to .length() == 0
 
-      if (_rules[1] && !(fconf == [])) {
+      if (_rules[1] && fconf.length != 0) {
         fine = false;
         output.confluence = fconf;
       }
-      if (_rules[3] && !(bconf == [])) {
-        output.backConfluence = bconf;
+      if (_rules[3] && bconf.length != 0) {
         fine = false;
+        output.backConfluence = bconf;
       }
 
       if (fine) return "";
-
+      console.log("Outputting to app: ", output);
       return output;
       // return _truth(model, state, json);
     };
