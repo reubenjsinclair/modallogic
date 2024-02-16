@@ -72,16 +72,16 @@ nodes.forEach(function (source) {
       return node.id === targetId;
     })[0];
 
-    if (sourceId < targetId) {
-      links.push({
-        source: source,
-        target: target,
-        left: false,
-        right: true,
-        type: "P",
-      });
-      return;
-    }
+    // if (sourceId < targetId) {
+    links.push({
+      source: source,
+      target: target,
+      left: false,
+      right: true,
+      type: "P",
+    });
+    return;
+    // }
 
     // var link = links.filter(function (l) { return (l.source === target && l.target === source); })[0];
 
@@ -100,16 +100,16 @@ nodes.forEach(function (source) {
       return node.id === targetId;
     })[0];
 
-    if (sourceId < targetId) {
-      links.push({
-        source: source,
-        target: target,
-        left: false,
-        right: true,
-        type: "R",
-      });
-      return;
-    }
+    // if (sourceId < targetId) {
+    links.push({
+      source: source,
+      target: target,
+      left: false,
+      right: true,
+      type: "R",
+    });
+    return;
+    // }
 
     // var link = links.filter(function (l) { return (l.source === target && l.target === source); })[0];
 
@@ -456,6 +456,7 @@ function setVarForSelectedNode(varnum, value) {
 function tick() {
   // draw directed edges with proper padding from node centers
   path.attr("d", function (d) {
+    // console.log(d);
     var deltaX = d.target.x - d.source.x,
       deltaY = d.target.y - d.source.y,
       dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY),
@@ -467,6 +468,7 @@ function tick() {
       sourceY = d.source.y + sourcePadding * normY,
       targetX = d.target.x - targetPadding * normX,
       targetY = d.target.y - targetPadding * normY;
+    // console.log(sourceX, sourceY, targetX, targetY);
     return "M" + sourceX + "," + sourceY + "L" + targetX + "," + targetY;
   });
 
@@ -479,7 +481,7 @@ function tick() {
 function restart() {
   // path (link) group
   path = path.data(links);
-
+  // console.log(path);
   // update existing links
   path
     .attr("class", function (d) {

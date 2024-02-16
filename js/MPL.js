@@ -565,7 +565,7 @@ var MPL = (function (FormulaParser) {
 
       _states.forEach(function (state, i) {
         if (state) {
-          modelString += "A" + Object.keys(state.assignment).join();
+          modelString += "A" + Object.keys(state.assignment).join("");
           modelString += "P" + self.getPreordersOf(i).join();
           modelString += "R" + self.getRelationsOf(i).join();
         }
@@ -614,7 +614,7 @@ var MPL = (function (FormulaParser) {
         }
         // console.log(state.match(/A(.*)S(.*)/));
         // console.log(state.match(/A(.*)S(.*)/).slice(1, 3));
-        console.log(stateProperties[0]);
+        console.log("stateProperties:", stateProperties);
         var assignment = {};
         stateProperties[0][0].split("").forEach(function (propvar) {
           assignment[propvar] = true;
