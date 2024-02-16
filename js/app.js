@@ -240,7 +240,12 @@ function checkModel() {
   let output = MPL.pretruth(model);
 
   if (output == "") {
-    alert(output);
+    checkOutputBconf
+      .html(
+        '<div class="alert alert-success"><strong>Success - use the evaluation tab to the right to test propositions</strong></div>'
+      )
+      .classed("inactive", false);
+    // alert(output);
     evalFormulaButton.attr("disabled", null);
     return;
   }
@@ -949,6 +954,9 @@ function setAppMode(newMode) {
     // reset eval state
     circle.classed("waiting", true);
     evalOutput.classed("inactive", true);
+
+    checkOutputBconf.classed("inactive", true);
+    checkOutputConf.classed("inactive", true);
   } else if (newMode === MODE.EVAL) {
     // disable listeners (except for I-bar prevention)
     svg
