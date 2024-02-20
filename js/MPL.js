@@ -719,10 +719,12 @@ var MPL = (function (FormulaParser) {
         _truth(model, state, json.disj[0]) || _truth(model, state, json.disj[1])
       );
     else if (json.impl)
-      return (
-        !_truth(model, state, json.impl[0]) ||
-        _truth(model, state, json.impl[1])
-      );
+      return model.getTransPreordersOf(state).every((world) => {
+        return (
+          !_truth(model, world, json.impl[0]) ||
+          _truth(model, world, json.impl[1])
+        );
+      });
     else if (json.equi)
       return (
         _truth(model, state, json.equi[0]) ===
