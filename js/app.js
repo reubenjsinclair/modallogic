@@ -356,10 +356,10 @@ function evaluateFormula() {
       : "$\\varnothing$";
   evalOutput
     .html(
-      '<div class="alert alert-success"><strong>True:</strong><div><div>' +
+      '<div class="alert alert-success"><strong>Present:</strong><div><div>' +
         latexTrue +
         "</div></div></div>" +
-        '<div class="alert alert-error"><strong>False:</strong><div><div>' +
+        '<div class="alert alert-error"><strong>Absent:</strong><div><div>' +
         latexFalse +
         "</div></div></div>"
     )

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Modal Logic Playground</title>
+  <title>Modular Logic Tool</title>
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,700">
   <link rel="stylesheet" href="lib/bootstrap.min.css">
   <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
@@ -14,7 +14,7 @@
   <div id="page-container">
     <a href="https://github.com/rkirsling/modallogic"><img class="github-link" src="img/blacktocat-32.png"
         title="Fork me on GitHub"></a>
-    <h1>Modal Logic Playground</h1>
+    <h1>Modular Logic Tool</h1>
     <section id="app">
       <div id="mode-select" class="btn-group">
         <button class="btn btn-primary active" onclick="setAppMode(MODE.EDIT)">
@@ -51,8 +51,8 @@
                     <td class="var-name">p:</td>
                     <td class="var-value">
                       <div class="btn-group">
-                        <button class="btn btn-small btn-success" onclick="setVarForSelectedNode(0,true)">True</button>
-                        <button class="btn btn-small btn-danger" onclick="setVarForSelectedNode(0,false)">False</button>
+                        <button class="btn btn-small btn-success" onclick="setVarForSelectedNode(0,true)">Present</button>
+                        <button class="btn btn-small btn-danger" onclick="setVarForSelectedNode(0,false)">Absent</button>
                       </div>
                     </td>
                   </tr>
@@ -60,8 +60,8 @@
                     <td class="var-name">q:</td>
                     <td class="var-value">
                       <div class="btn-group">
-                        <button class="btn btn-small btn-success" onclick="setVarForSelectedNode(1,true)">True</button>
-                        <button class="btn btn-small btn-danger" onclick="setVarForSelectedNode(1,false)">False</button>
+                        <button class="btn btn-small btn-success" onclick="setVarForSelectedNode(1,true)">Present</button>
+                        <button class="btn btn-small btn-danger" onclick="setVarForSelectedNode(1,false)">Absent</button>
                       </div>
                     </td>
                   </tr>
@@ -69,8 +69,8 @@
                     <td class="var-name">r:</td>
                     <td class="var-value">
                       <div class="btn-group">
-                        <button class="btn btn-small btn-success" onclick="setVarForSelectedNode(2,true)">True</button>
-                        <button class="btn btn-small btn-danger" onclick="setVarForSelectedNode(2,false)">False</button>
+                        <button class="btn btn-small btn-success" onclick="setVarForSelectedNode(2,true)">Present</button>
+                        <button class="btn btn-small btn-danger" onclick="setVarForSelectedNode(2,false)">Absent</button>
                       </div>
                     </td>
                   </tr>
@@ -78,8 +78,8 @@
                     <td class="var-name">s:</td>
                     <td class="var-value">
                       <div class="btn-group">
-                        <button class="btn btn-small btn-success" onclick="setVarForSelectedNode(3,true)">True</button>
-                        <button class="btn btn-small btn-danger" onclick="setVarForSelectedNode(3,false)">False</button>
+                        <button class="btn btn-small btn-success" onclick="setVarForSelectedNode(3,true)">Present</button>
+                        <button class="btn btn-small btn-danger" onclick="setVarForSelectedNode(3,false)">Absent</button>
                       </div>
                     </td>
                   </tr>
@@ -87,8 +87,8 @@
                     <td class="var-name">t:</td>
                     <td class="var-value">
                       <div class="btn-group">
-                        <button class="btn btn-small btn-success" onclick="setVarForSelectedNode(4,true)">True</button>
-                        <button class="btn btn-small btn-danger" onclick="setVarForSelectedNode(4,false)">False</button>
+                        <button class="btn btn-small btn-success" onclick="setVarForSelectedNode(4,true)">Present</button>
+                        <button class="btn btn-small btn-danger" onclick="setVarForSelectedNode(4,false)">Absent</button>
                       </div>
                     </td>
                   </tr>
@@ -103,7 +103,7 @@
                   <td class="var-value">
                     <div class="btn-group">
                       <button id="btnArrowPreorder" class="active btn btn-small btn-info" onclick="setArrowType('preorder')">Preorder</button>
-                      <button id="btnArrowRelation" class="btn btn-small btn-secondary" onclick="setArrowType('relation')">Relation</button>
+                      <button id="btnArrowRelation" class="btn btn-small btn-secondary" onclick="setArrowType('relation')">Accessibility</button>
                     </div>
                   </td>
                 </tr>
@@ -123,6 +123,10 @@
 		    <tr class="test">
 		      <td class="rule-label"><label class="form-check-label" for="bConf">Backwards Confluence: </label></td>
 		      <td class="rule-check"><input class="form-check-input" type="checkbox" id="bConf" onchange="toggleRule(3)"></td>
+		    </tr>
+		    <tr class="test">
+		      <td class="rule-label"><label class="form-check-label" for="mono">$\leq$ monotonicity: </label></td>
+		      <td class="rule-check"><input checked disabled class="form-check-input" type="checkbox" id="mono" onchange=""></td>
 		    </tr>
 		  </tbody>
 		</table>
@@ -149,11 +153,11 @@
 		    </tr>
 		    <tr class="test">
 		      <td class="rule-label"><label class="form-check-label" for="reflP">Reflexivity of $\leq$: </label></td>
-		      <td class="rule-check"><input disabled class="form-check-input" type="checkbox" id="reflP" onchange=""</td>
+		      <td class="rule-check"><input checked disabled class="form-check-input" type="checkbox" id="reflP" onchange=""</td>
 		    </tr>
 		    <tr class="test">
 		      <td class="rule-label"><label class="form-check-label" for="transP">Transitivity of $\leq$: </label></td>
-		      <td class="rule-check"><input disabled class="form-check-input" type="checkbox" id="transP" onchange=""></td>
+		      <td class="rule-check"><input checked disabled class="form-check-input" type="checkbox" id="transP" onchange=""></td>
 		    </tr>
 		  </tbody>
 		</table>
@@ -272,7 +276,7 @@
           </tr>
           <tr>
             <td>Change the type of an arrow</td>
-            <td>Click on the arrow then use the toggle to the left of the screen</td>
+            <td>Click on the arrow then hit 'P' or 'R' to change to Preorder or Accessibility Relation</td>
           </tr>
         </tbody>
       </table>
